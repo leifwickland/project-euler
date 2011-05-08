@@ -1,11 +1,11 @@
 object euler {
+  val projects = Set(project11, project16, project20, project13, project14)
   def main(args: Array[String]) {
     if (args.length == 0) {
       println("\nUsage: euler <projectN> [more args]\n")
       exit(0);
     }
     val projectName = args(0)
-    val projects = Set(project11, project16)
     projects.find { _.name == projectName } match {
       case None => {
         printf("\nSorry, I couldn't find a project named %s.\n", projectName)
