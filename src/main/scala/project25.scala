@@ -7,6 +7,6 @@ object project25 extends Project {
       case Some(x) => println("SUCCESS: " + t + " -> " + x)
       case _ => println("Eh.  That shouldn't have happened")
     }
-  }
-  lazy val fib: Stream[BigInt] = Stream.cons(0, Stream.cons(1, fib.zip(fib.tail).map(p => p._1 + p._2)))
+  } 
+  val fib: Stream[BigInt] = Stream.cons(0, Stream.cons(1, fib.zip(fib.tail).map(p => p._1 + p._2)))
 }
