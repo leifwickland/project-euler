@@ -2,7 +2,7 @@ package util
 
 abstract class Project extends Tester {
   def run(args: Array[String]) = args.headOption match { 
-    case None => testWrapper; solve(args.tail)
+    case None => testWrapper; println; solve(args)
     case Some("test") => testWrapper
     case Some("solve") => solve(args.tail)
   }
