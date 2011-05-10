@@ -1,4 +1,4 @@
-object project11 extends Project {
+object project11 extends util.Project {
   def description = "What is the greatest product of four numbers on the same straight line in the 20 by 20 grid?"
 
   def run(args: Array[String]) {

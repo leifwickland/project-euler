@@ -20,4 +20,6 @@ object funcs {
   }
 
   def firstNLetters(n: Int, from: Char = 'A'): String = (for (c <- 'A'.until(('A' + n).toChar)) yield c).mkString
+
+  def fibonacci: Stream[BigInt] = Stream.cons(0, Stream.cons(1, fibonacci.zip(fibonacci.tail).map(p => p._1 + p._2)))
 }

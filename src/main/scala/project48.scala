@@ -1,4 +1,4 @@
-object project48 extends Project {
+object project48 extends util.Project {
   def description = "Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000."
 
   def run(args: Array[String]) {

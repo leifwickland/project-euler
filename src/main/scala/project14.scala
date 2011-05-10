@@ -1,4 +1,4 @@
-object project14 extends Project {
+object project14 extends util.Project {
   def description = "Find the longest sequence using a starting number under one million."
   def run(args: Array[String]) = args.headOption match {
     case Some("caching") => caching.run(args)

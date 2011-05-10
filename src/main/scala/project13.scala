@@ -1,6 +1,6 @@
 import java.math.BigInteger
 
-object project13 extends Project {
+object project13 extends util.Project {
   def description = "Find the first ten digits of the sum of one-hundred 50-digit numbers."
   def run(args: Array[String]) {
     val sum = (input.split("\\s+").map{_.trim}.filter{_.length > 0}.map{new BigInteger(_)}.map{new BigInt(_)}).sum
