@@ -21,5 +21,13 @@ object funcs {
 
   def firstNLetters(n: Int, from: Char = 'A'): String = (for (c <- 'A'.until(('A' + n).toChar)) yield c).mkString
 
-  def fibonacci: Stream[BigInt] = Stream.cons(0, Stream.cons(1, fibonacci.zip(fibonacci.tail).map(p => p._1 + p._2)))
+  def fibonacci() = {
+    class Fibber {
+      // If I were a better scalist I'd understand why fib has to be declared as a member inside of an 
+      // object to work correclty and could probably figure out a way around it, but I'm not.
+      val fib: Stream[BigInt] = Stream.cons(0, Stream.cons(1, fib.zip(fib.tail).map(p => p._1 + p._2)))
+      def getFib = fib
+    }
+    (new Fibber).getFib
+  }
 }

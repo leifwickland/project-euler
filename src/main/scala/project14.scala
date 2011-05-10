@@ -1,15 +1,16 @@
 object project14 extends util.Project {
   def description = "Find the longest sequence using a starting number under one million."
-  def run(args: Array[String]) = args.headOption match {
-    case Some("caching") => caching.run(args)
-    case _ => naive.run(args)
+
+  def solve(args: Array[String]) = args.headOption match {
+    case Some("caching") => caching.solve
+    case _ => naive.solve
   }
 
-  object caching {
+  object caching { // This is about 5x slower than the naive approach.  I have no idea why.
     val cache = new scala.collection.mutable.OpenHashMap[Long,Long](1.5e6.toInt)
     cache(1L)=1L
 
-    def run(args: Array[String]) {
+    def solve() {
       2L.until(1e6.toLong).foreach(collatz)
       var max = (1L,1L)
       cache.withFilter{_._1 < 1e6.toLong }.foreach{(t) => if (t._2 > max._2) max = t}
@@ -25,7 +26,7 @@ object project14 extends util.Project {
   }
 
   object naive {
-    def run(args: Array[String]) {
+    def solve() {
       var max = (1L,1L)
       for (i <- 1 until 1e6.toInt) {
         val c = collatz(i)
@@ -47,5 +48,12 @@ object project14 extends util.Project {
         collatz(n * 3 + 1) + 1
       }
     }
+  }
+
+  override def test {
+    verify(naive.collatz(13), 10)
+    verify(naive.collatz(40), 9)
+    verify(caching.collatz(13), 10)
+    verify(caching.collatz(40), 9)
   }
 }

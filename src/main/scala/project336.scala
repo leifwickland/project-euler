@@ -5,13 +5,8 @@ import util.funcs._
 object project336 extends Project {
   def description = "Maximix Arrangements: Find the 2011th lexicographic maximix arrangement for eleven carriages."
 
-  def run(args: Array[String]) = args.headOption match { 
-    case None => test; solve
-    case Some("test") => test
-    case Some("solve") => solve
-  }
-
-  def solve() = println(getMaximix(11)(2010)) 
+  //def solve(args: Array[String]) = println(getMaximix(11)(2010)) 
+  def solve(args: Array[String]) = "skipping"
 
   def getMaximix(length: Int) = {
     val longestSolutions = ListBuffer[(String, Int)]((null, 0))  // Turns out, List has O(n) appends; ListBuffer has O(1). This runs 25x faster with ListBuffer.
@@ -44,25 +39,24 @@ object project336 extends Project {
     }
   }
 
-  def test() { 
-    println("Starting tests")
-    assert(("A", 0) == getRotations("A"))
-    assert(("AB", 0) == getRotations("AB"))
-    assert(("AB", 1) == getRotations("BA"))
-    assert(("ABCD", 0) == getRotations("ABCD"))
-    assert(("ABCD", 1) == getRotations("ADCB"))
-    assert(("ABCD", 5) == getRotations("DACB"))  
-    assert(("ABCD", 5) == getRotations("DBAC"))
-    assert("A".permutations.toList.length == 1)
-    assert("AB".permutations.toList.length == 2)
-    assert("ABC".permutations.toList.length == 6)
-    assert(List(("DACB",5), ("DBAC",5)) == getMaximix(4))
-    assert(24 == getMaximix(6).length)
-    assert("DFAECB" == getMaximix(6)(9)._1)
-    assert(firstNLetters(1) == "A")
-    assert(firstNLetters(4) == "ABCD")
-    assert(factorial(1) == 1)
-    assert(factorial(11) == 39916800)
-    println("Tests passed")
+  override def test() { 
+    verify(("A", 0), getRotations("A"))
+    verify(("AB", 0), getRotations("AB"))
+    verify(("AB", 1), getRotations("BA"))
+    verify(("ABCD", 0), getRotations("ABCD"))
+    verify(("ABCD", 1), getRotations("ADCB"))
+    verify(("ABCD", 5), getRotations("DACB"))  
+    verify(("ABCD", 5), getRotations("DBAC"))
+    verify("A".permutations.toList.length, 1)
+    verify("AB".permutations.toList.length, 2)
+    verify("ABC".permutations.toList.length, 6)
+    verify(("DACB",5), getMaximix(4)(0))
+    verify(("DBAC",5), getMaximix(4)(1))
+    verify(24, getMaximix(6).length)
+    verify("DFAECB", getMaximix(6)(9)._1)
+    verify(firstNLetters(1), "A")
+    verify(firstNLetters(4), "ABCD")
+    verify(factorial(1), 1)
+    verify(factorial(11), 39916800)
   }
 }

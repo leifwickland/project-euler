@@ -1,12 +1,8 @@
 object project11 extends util.Project {
   def description = "What is the greatest product of four numbers on the same straight line in the 20 by 20 grid?"
 
-  def run(args: Array[String]) {
-    println(inputGrid) 
+  def solve(args: Array[String]) {
     val grid = new Grid(inputGrid)
-    assert(Seq(8, 2, 22, 97) == grid.getHorizontalGroup(0, 0))
-    assert(Seq(8, 49, 81, 52) == grid.getVerticalGroup(0, 0))
-
     val results = for (
          y <- 0 until grid.dim; 
          x <- 0 until grid.dim;
@@ -17,8 +13,15 @@ object project11 extends util.Project {
     println(results.sortWith { _.product < _.product }.takeRight(5))
   }
 
+  override def test() {
+    println(inputGrid) 
+    val grid = new Grid(inputGrid)
+    verify(Seq(8, 2, 22, 97), grid.getHorizontalGroup(0, 0))
+    verify(Seq(8, 49, 81, 52), grid.getVerticalGroup(0, 0))
+  }
+
   class Grid(inputGrid: String) {
-    def dim: Int = 20
+    def dim = 20
     val flatGrid = inputGrid.split(' ').map{_.trim}.filter{_.length > 0}.map{_.toInt}
     assert(flatGrid.length == dim * dim )
     val grid = Array.ofDim[Int](dim,dim)

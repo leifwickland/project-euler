@@ -2,8 +2,9 @@ import java.math.BigInteger
 
 object project13 extends util.Project {
   def description = "Find the first ten digits of the sum of one-hundred 50-digit numbers."
-  def run(args: Array[String]) {
-    val sum = (input.split("\\s+").map{_.trim}.filter{_.length > 0}.map{new BigInteger(_)}.map{new BigInt(_)}).sum
+
+  def solve(args: Array[String]) {
+    val sum = (input.split("\\s+").map{_.trim}.filter{_.length > 0}.map{BigInt(_)}).sum
     println("Sum: " + sum)
     println("First 10 digits of sum: " + sum.toString.substring(0, 10))
   }
