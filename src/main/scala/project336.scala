@@ -5,8 +5,7 @@ import util.funcs._
 object project336 extends Project {
   def description = "Maximix Arrangements: Find the 2011th lexicographic maximix arrangement for eleven carriages."
 
-  //def solve(args: Array[String]) = println(getMaximix(11)(2010)) 
-  def solve(args: Array[String]) = "skipping"
+  def solve(args: Array[String]) = println(getMaximix(11)(2010)) 
 
   def getMaximix(length: Int) = {
     val longestSolutions = ListBuffer[(String, Int)]((null, 0))  // Turns out, List has O(n) appends; ListBuffer has O(1). This runs 25x faster with ListBuffer.
