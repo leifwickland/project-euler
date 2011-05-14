@@ -5,11 +5,11 @@ object project67 extends util.Project {
 
   def solve(args: Array[String]) = println("Max Path: " + getMaxPath(readTriangle(realTriangle)))
 
+  def log(message: String) = printf("%1.3f: %s\n", .001 * timeDelta, message)
+
   implicit object PathOrd extends Ordering[Path] {
     def compare(a: Path, other: Path): Int = a.weight.compare(other.weight)
   }
-
-  def log(message: String) = printf("%1.3f: %s\n", .001 * timeDelta, message)
 
   def getMaxPath(triangle: Triangle) = {
     val lastLevel = triangle.length - 1
@@ -75,9 +75,8 @@ object project67 extends util.Project {
     reader.map(_.split(' ').map(_.trim).filter(_.length>0).map(_.toInt)).toArray
   }
 
-
-  class Path(triangle: Triangle, indexes: List[Int], sum: Int, level: Int) {
-    val weight: Int = sum + level
+  class Path(triangle: Triangle, indexes: List[Int], sum: Int, level: Int) extends Immutable {
+    val weight: Int = sum * triangle.length / scala.math.max(level, 1)
     def +(index: Int): Path = {
       new Path(this.triangle, this.indexes.+:(index), this.sum + triangle(this.level + 1)(index), level + 1)
     }
