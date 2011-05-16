@@ -22,4 +22,4 @@ object project36 extends util.Project {
     verify(584.toBinaryString.isPalindrome, false)
     verify(585, List(585, 584).filter(_.toString.isPalindrome).filter(_.toBinaryString.isPalindrome).sum)
   }
-
+}
