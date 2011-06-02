@@ -1,3 +1,5 @@
+import scala.collection._
+
 object project79 extends util.Project {
   def description = "By analysing a user's login attempts, can you determine the secret numeric passcode?"
 
@@ -9,14 +11,14 @@ object project79 extends util.Project {
 
   def findLongestPath(graph: Graph) = {
     var longest = ""
-    val stack = scala.collection.mutable.ArrayStack[String]("S")
+    val stack = mutable.ArrayStack[String]("S")
     while (stack.nonEmpty) {
       var current = stack.pop
       graph.get(current.last).foreach { 
-        _.foreach { x =>
-          x match {
-            case 'E' => if (current.length >= longest.length) longest = current + x
-            case _ => stack.push(current + x)
+        _.foreach { next =>
+          next match {
+            case 'E' => if (current.length >= longest.length) longest = current + next
+            case _ => stack.push(current + next)
           }
         }
       }
@@ -24,17 +26,15 @@ object project79 extends util.Project {
     longest.substring(1, longest.length - 1)
   }
 
-  def appendAt[K,V](m: scala.collection.mutable.Map[K,Set[V]], k: K, v: V) = m(k) = (m.getOrElse(k, Set[V]()) + v)
-
-  type Graph = scala.collection.mutable.HashMap[Char, Set[Char]]
+  type Graph = mutable.MultiMap[Char,Char]
 
   def convertAttemptsToGraph(attempts: Array[Seq[Char]]): Graph = {
-    val graph = new Graph
-    attempts.foreach{_.sliding(2).foreach(pair => appendAt(graph, pair(0), pair(1)))}
+    val graph = new mutable.HashMap[Char,mutable.Set[Char]] with Graph
+    attempts.foreach{_.sliding(2).foreach(pair => graph.addBinding(pair(0), pair(1)))}
     graph
   }
 
-  def convertStringToAttempts(s: String) = new scala.util.matching.Regex("\\s+").split(s).map(_.trim).filter(_.length > 0).map('S' +: _.toSeq :+ 'E')
+  def convertStringToAttempts(s: String) = new scala.util.matching.Regex("\\s+").split(s).map('S' +: _.toSeq :+ 'E')
 
   def testAttempts = convertAttemptsToGraph(convertStringToAttempts("""
     123
