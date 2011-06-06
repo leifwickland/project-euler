@@ -7,3 +7,8 @@ project/plugins/lib_managed/
 project/plugins/project/
 project/plugins/src_managed/
 project/plugins/target/
+project.old/boot/
+project.old/plugins/lib_managed/
+project.old/plugins/project/
+project.old/plugins/src_managed/
+project.old/plugins/target/
