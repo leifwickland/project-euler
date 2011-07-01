@@ -3,47 +3,47 @@ import scala.collection._
 object project79 extends util.Project {
   def description = "By analysing a user's login attempts, can you determine the secret numeric passcode?"
 
-  def solve(args: Array[String]) = println(findLongestPath(attempts))
+  def solve(args: Array[String]) = println(attempts.findLongestPath)
 
   override def test() {
-    verify("12345", findLongestPath(testAttempts))
+    verify("12345", testAttempts.findLongestPath)
   }
 
-  def findLongestPath(graph: Graph) = {
-    var longest = ""
-    val stack = mutable.ArrayStack[String]("S")
-    while (stack.nonEmpty) {
-      var current = stack.pop
-      graph.get(current.last).foreach { 
-        _.foreach { next =>
-          next match {
-            case 'E' => if (current.length >= longest.length) longest = current + next
-            case _ => stack.push(current + next)
-          }
+  final class Graph(attempts: String) {
+    private val startNode = 'S'
+    private val endNode = 'E'
+    private implicit def cToS(c: Char): String = c.toString
+    private val graph = new mutable.HashMap[Char,mutable.Set[Char]] with mutable.MultiMap[Char,Char]
+    convertAttemptsToGraph(convertStringToAttempts(attempts))
+
+    def findLongestPath: String = findLongestPathImpl(startNode).stripPrefix(startNode).stripSuffix(endNode)
+
+    private def findLongestPathImpl(current: String): String = {
+      getSuccessors(current).map{ s => 
+        s.last match {
+          case 'E' => s
+          case _ => findLongestPathImpl(s)
         }
-      }
+      }.maxBy(_.length)
     }
-    longest.substring(1, longest.length - 1)
+
+    private def getSuccessors(current: String) = graph.getOrElse(current.last, Set()).map(current+)
+
+    private def convertAttemptsToGraph(attempts: Array[Seq[Char]]) {
+      attempts.foreach{_.sliding(2).foreach(pair => graph.addBinding(pair(0), pair(1)))}
+    }
+
+    private def convertStringToAttempts(s: String) = "\\s+".r.split(s).map(startNode +: _.toSeq :+ endNode)
   }
 
-  type Graph = mutable.MultiMap[Char,Char]
-
-  def convertAttemptsToGraph(attempts: Array[Seq[Char]]): Graph = {
-    val graph = new mutable.HashMap[Char,mutable.Set[Char]] with Graph
-    attempts.foreach{_.sliding(2).foreach(pair => graph.addBinding(pair(0), pair(1)))}
-    graph
-  }
-
-  def convertStringToAttempts(s: String) = new scala.util.matching.Regex("\\s+").split(s).map('S' +: _.toSeq :+ 'E')
-
-  def testAttempts = convertAttemptsToGraph(convertStringToAttempts("""
+  def testAttempts = new Graph("""
     123
     345
     234
     124
-    245"""))
+    245""")
 
-  def attempts = convertAttemptsToGraph(convertStringToAttempts("""
+  def attempts = new Graph("""
   319
   680
   180
@@ -94,5 +94,5 @@ object project79 extends util.Project {
   319
   728
   716
-  """))
+  """)
 }
