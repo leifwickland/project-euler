@@ -1,6 +1,5 @@
 object project52 extends util.Project {
   def description = "Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x, contain the same digits."
-  val startTime = System.currentTimeMillis
 
   def solve(args: Array[String]) = solveFast
 
@@ -16,13 +15,9 @@ object project52 extends util.Project {
   def solveFast {
     var x: Long = 1L
     while (x > 0) {
-      if  (x % 100000L == 0L) {
-        println(sinceStart + x)
-      }
       val threeX = x + x + x
       val sixXs = (threeX + threeX).toString.sorted
       if (sixXs.length > x.toString.length) {
-        println(sinceStart + "Skipping from " + x)
         x = math.pow(10, math.log10(x).ceil).toLong
       } else if (threeX.toString.sorted == sixXs) {
         val twoX = x + x
@@ -42,7 +37,4 @@ object project52 extends util.Project {
     println("Solved!")
     1.to(6).foreach(i => println(i + "x == " + (i * x)))
   }
-
-  def sinceStart: String = "%010.3f: ".format((System.currentTimeMillis - startTime) / 1000.0)
-
 }
